@@ -381,7 +381,7 @@ if submit_btn:
         except Exception as e:
             err_msg = str(e)
             if "exhausted" in err_msg.lower() or "quota" in err_msg.lower():
-                st.error("🚨 NEURAL NETWORK CONGESTED: Gemini API Quota exceeded. Please wait 60 seconds and try again, or use a different API key.")
+                st.error(" NEURAL NETWORK CONGESTED: Gemini API Quota exceeded. Please wait 60 seconds and try again, or use a different API key.")
             else:
                 st.error(f"Neural Connection Terminated: {e}")
 

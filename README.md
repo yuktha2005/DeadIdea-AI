@@ -21,7 +21,7 @@ Historically, many brilliant ideas failed purely because the timing was wrong—
 - **Database**: Google Cloud Firestore
 - **Deployment**: Google Cloud Run / Docker
 
-## 🏗️ System Architecture
+##  System Architecture
 
 ![System Architecture Preview](https://raw.githubusercontent.com/yuktha2005/DeadIdea-AI/main/system_architecture_preview.png)
 
@@ -47,7 +47,7 @@ graph TD
     style User color:#FFF,stroke:#FFF
 ```
 
-### 🧠 The Intelligence Flow
+###  The Intelligence Flow
 1. **Frontend**: Captures discarded visions through a 30px-blur glassmorphism interface.
 2. **Intelligence Layer**: Managed by `gemini_agent.py`, it orchestrates multiple Gemini model tiers for maximum resilience.
 3. **AI Core**: Google Gemini extracts failure vectors and synthesizes a 2026 technical delta.
@@ -76,7 +76,7 @@ graph TD
 
 ---
 
-## ⚡ Automated Cloud Deployment
+##  Automated Cloud Deployment
 
 This project demonstrates professional DevOps practices through Infrastructure-as-Code (IaC) and automated shell scripting for Google Cloud Platform.
 
