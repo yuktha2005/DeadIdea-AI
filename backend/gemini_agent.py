@@ -59,6 +59,23 @@ def analyze_idea(idea_name: str, api_key: str = None) -> dict:
                     )
                 )
                 result = json.loads(response.text)
+                
+                # Ensure result is a dictionary to prevent 'list' object errors in UI
+                if isinstance(result, list) and len(result) > 0:
+                    result = result[0]
+                
+                if not isinstance(result, dict):
+                    result = {"Idea Summary": str(result)}
+                
+                # Ensure expected keys exist
+                for key in ["Idea Summary", "Failure Analysis", "What Has Changed Today", "Revived Startup Concept"]:
+                    if key not in result:
+                        result[key] = "N/A"
+                if "Revival Potential Score" not in result:
+                    result["Revival Potential Score"] = 50
+                if "Visual Concept Prompt" not in result:
+                    result["Visual Concept Prompt"] = f"A futuristic concept of {idea_name}"
+                    
                 return result
             except Exception as e:
                 last_error = e
