@@ -15,70 +15,179 @@ except ImportError:
 
 API_URL = os.environ.get("API_URL", "http://localhost:8000")
 
-st.set_page_config(page_title="DeadIdea AI", page_icon="💀", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(
+    page_title="DeadIdea AI | Resurrecting Innovation", 
+    page_icon="💀", 
+    layout="wide", 
+    initial_sidebar_state="expanded"
+)
 
-# Custom CSS for a cyberpunk/premium aesthetic
+# --- ADVANCED DESIGN SYSTEM (CSS) ---
 st.markdown("""
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;800&display=swap" rel="stylesheet">
+
 <style>
-    /* Add gradient headers and glowing metrics */
-    .stTextInput input {
-        border-radius: 8px;
-        padding: 12px;
-        font-size: 1.1rem;
+    /* Global Styles */
+    :root {
+        --primary-mint: #00FFC2;
+        --secondary-rose: #FF2D55;
+        --bg-dark: #0B0B0C;
+        --card-bg: rgba(28, 29, 31, 0.7);
+        --text-muted: #8E9196;
+        --glass-border: rgba(255, 255, 255, 0.08);
     }
-    .stButton>button {
-        width: 100%;
-        border-radius: 8px;
-        background: linear-gradient(90deg, #ff4b4b 0%, #ff1c1c 100%);
+
+    body, [data-testid="stAppViewContainer"] {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-dark);
         color: white;
-        font-weight: bold;
-        border: none;
-        padding: 0.75rem 0;
+    }
+
+    h1, h2, h3, h4, .outfit-font {
+        font-family: 'Outfit', sans-serif !important;
+    }
+
+    /* Glass Panels */
+    .glass-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 1.5rem;
         transition: all 0.3s ease;
     }
-    .stButton>button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(255, 75, 75, 0.4);
+    
+    .glass-card:hover {
+        border-color: rgba(0, 255, 194, 0.3);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
     }
-    .gradient-text {
-        background: linear-gradient(90deg, #ff4b4b, #ff8c42, #ff4b4b);
+
+    /* Luxury Header */
+    .hero-title {
+        background: linear-gradient(135deg, #FFFFFF 0%, #888888 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         font-weight: 800;
-        font-size: 3.5rem;
+        font-size: 3.8rem;
+        letter-spacing: -2px;
         margin-bottom: 0px;
-        padding-bottom: 0px;
     }
+    
+    .hero-subtitle {
+        color: var(--primary-mint);
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-top: -10px;
+    }
+
+    /* Metric Overrides */
     div[data-testid="stMetricValue"] {
-        font-size: 3rem !important;
-        color: #00ffcc !important;
+        font-family: 'Outfit', sans-serif;
+        font-size: 2.8rem !important;
+        font-weight: 700 !important;
+        color: white !important;
     }
-    .concept-pitch {
-        font-size: 1.4rem;
-        font-style: italic;
-        color: #ffb86c;
-        border-left: 4px solid #ffb86c;
-        padding-left: 15px;
-        margin: 20px 0;
+    
+    div[data-testid="stMetricLabel"] {
+        color: var(--text-muted) !important;
+        font-size: 0.85rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+    }
+
+    /* Button Styling */
+    .stButton>button {
+        background: white !important;
+        color: black !important;
+        border: none !important;
+        padding: 0.8rem 2.5rem !important;
+        font-weight: 700 !important;
+        border-radius: 12px !important;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .stButton>button:hover {
+        transform: scale(1.02) !important;
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.2) !important;
+    }
+
+    /* Input Field Styling */
+    .stTextInput input {
+        background: rgba(255,255,255,0.05) !important;
+        border: 1px solid var(--glass-border) !important;
+        border-radius: 12px !important;
+        padding: 1rem !important;
+        color: white !important;
+    }
+
+    /* Sidebar Branding */
+    .sidebar-branding {
+        padding: 1.5rem;
+        text-align: center;
+        border-bottom: 1px solid var(--glass-border);
+        margin-bottom: 2rem;
+    }
+
+    /* Custom Divider */
+    .premium-hr {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+        margin: 3rem 0;
+        border: none;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-in {
+        animation: fadeIn 0.8s ease forwards;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Header
-col_header1, col_header2 = st.columns([1, 6])
-with col_header1:
-    st.image("https://api.dicebear.com/7.x/shapes/svg?seed=💀&backgroundColor=0d0d12", width=120)
-with col_header2:
-    st.markdown('<p class="gradient-text">DeadIdea AI</p>', unsafe_allow_html=True)
-    st.markdown("#### Resurrecting the Graveyard of Innovation ⚰️ ➡️ 🚀")
+# --- HEADER SECTION ---
+col_h1, col_h2 = st.columns([1, 4])
+with col_h1:
+    # Robust logo path
+    logo_path = "deadidea_ai_luxury_logo_1773671009582.png"
+    if not os.path.exists(logo_path):
+        logo_path = os.path.join(os.path.dirname(__file__), "..", logo_path)
+    
+    if os.path.exists(logo_path):
+        st.image(logo_path, width=180)
+    else:
+        st.markdown('<div style="font-size: 5rem;">💀</div>', unsafe_allow_html=True)
 
-st.markdown("Many multi-billion dollar ideas naturally fail because they were simply *too early*. Enter the name of an abandoned idea, discontinued product, or failed startup. Gemini will analyze its past and structurally reconstruct it for the present.")
+with col_h2:
+    st.markdown('<p class="hero-title animate-in">DeadIdea AI</p>', unsafe_allow_html=True)
+    st.markdown('<p class="hero-subtitle animate-in">Resurrecting the Graveyard of Innovation</p>', unsafe_allow_html=True)
+    st.markdown("""
+    <div style="margin-top: 15px; color: #8E9196; max-width: 600px; line-height: 1.6; font-size: 1.1rem;">
+    Deciphering the failure of past visions to engineer the breakthroughs of tomorrow. 
+    Powered by <b>Google Gemini Pro</b>.
+    </div>
+    """, unsafe_allow_html=True)
+
+st.markdown('<div class="premium-hr"></div>', unsafe_allow_html=True)
 
 st.markdown("---")
 
 # Sidebar for configuration
 with st.sidebar:
-    st.title("⚙️ Configuration")
+    st.markdown('<div class="sidebar-branding">', unsafe_allow_html=True)
+    st.markdown('<p class="outfit-font" style="font-weight: 800; font-size: 1.5rem; color: var(--primary-mint);">DEADIDEA</p>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    st.markdown("### ⚙️ Engine Settings")
     
     # Try to get key from secrets first (Streamlit Cloud)
     env_key = os.environ.get("GEMINI_API_KEY") or st.secrets.get("GEMINI_API_KEY", "")
@@ -86,8 +195,11 @@ with st.sidebar:
     user_api_key = st.text_input("Gemini API Key", type="password", value=env_key, help="Enter your Google Gemini API key.")
     
     if not user_api_key:
-        st.warning("⚠️ API Key is missing. Enter it above or set GEMINI_API_KEY in secrets.")
-    st.info("Don't have a key? Get one at [Google AI Studio](https://aistudio.google.com/app/apikey)")
+        st.warning("⚠️ API Key is missing.")
+    
+    st.markdown("---")
+    st.markdown("### 🛠️ Developer Mode")
+    st.info("Direct Standalone Link active. Connected to Gemini SDK.")
 
 col_search1, col_search2, col_search3 = st.columns([1, 2, 1])
 with col_search2:
@@ -146,22 +258,34 @@ if submit_btn:
             if score >= 80:
                 st.balloons()
             
-            st.markdown(f"## 🌟 Revival Protocol Complete: **{idea_input.upper()}**")
+            # Result Header
+            st.markdown(f'<p class="outfit-font animate-in" style="font-size: 2rem; font-weight: 800; margin-bottom: 2rem;">⚡ Revival Protocol: {idea_input.upper()}</p>', unsafe_allow_html=True)
             
-            # The core storytelling UI
-            if data.get("Elevator Pitch"):
-                st.markdown(f'<div class="concept-pitch">"{data.get("Elevator Pitch", "An incredible new future.")}"</div>', unsafe_allow_html=True)
-            
-            # Top metrics
-            m_col1, m_col2, m_col3 = st.columns(3)
-            with m_col1:
-                st.metric(label="Revival Viability %", value=f"{score}%", delta="High Potential" if score > 75 else "- Low Viability")
-            with m_col2:
+            # Metric Row in Glass Cards
+            m1, m2, m3 = st.columns(3)
+            with m1:
+                st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+                st.metric(label="Viability Index", value=f"{score}%", delta="HIGH POTENTIAL" if score > 75 else "LOW")
+                st.markdown('</div>', unsafe_allow_html=True)
+            with m2:
+                st.markdown('<div class="glass-card">', unsafe_allow_html=True)
                 short_audience = data.get("Target Audience", "Mass Market")
-                if len(short_audience) > 25: short_audience = short_audience[:22] + "..."
-                st.metric(label="Target Audience", value=short_audience)
-            with m_col3:
-                st.metric(label="Status", value="SEED READY" if score > 80 else "NEEDS R&D", delta_color="off")
+                if len(short_audience) > 20: short_audience = short_audience[:18] + "..."
+                st.metric(label="Market Segement", value=short_audience)
+                st.markdown('</div>', unsafe_allow_html=True)
+            with m3:
+                st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+                st.metric(label="Investment Status", value="SEED READY" if score > 80 else "R&D")
+                st.markdown('</div>', unsafe_allow_html=True)
+
+            # Elevator Pitch Panel
+            pitch = data.get("Elevator Pitch", "A bold vision for the future.")
+            st.markdown(f"""
+            <div class="glass-card" style="border-left: 4px solid var(--primary-mint); border-radius: 0 20px 20px 0;">
+                <p style="color: var(--primary-mint); font-weight: 600; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 10px;">THE VISION</p>
+                <p style="font-size: 1.5rem; font-family: 'Outfit'; font-weight: 500; font-style: italic;">"{pitch}"</p>
+            </div>
+            """, unsafe_allow_html=True)
                 
             st.divider()
             
@@ -169,28 +293,30 @@ if submit_btn:
             main_col1, main_col2 = st.columns([1.5, 1])
             
             with main_col1:
+                st.markdown('<div class="glass-card">', unsafe_allow_html=True)
                 # Use Tabs for a clean, non-overwhelming UI
-                tab1, tab2, tab3 = st.tabs(["📉 The Post-Mortem", "🚀 The Revival Plan", "💡 The Concept Details"])
+                tab1, tab2, tab3 = st.tabs(["📉 Post-Mortem", "🚀 Revival Plan", "💡 Concept Details"])
                 
                 with tab1:
-                    st.markdown("### 📝 What It Was")
+                    st.markdown("#### The Idea Summary")
                     st.write(data.get("Idea Summary", ""))
-                    st.markdown("### 💀 Why It Died")
-                    st.info(data.get("Failure Analysis", ""))
+                    st.markdown("#### Failure Vectors")
+                    st.warning(data.get("Failure Analysis", ""))
                     
                 with tab2:
-                    st.markdown("### ⚡ What Has Changed?")
+                    st.markdown("#### Market Evolution")
                     st.success(data.get("What Has Changed Today", ""))
-                    st.markdown("### 🎯 Core Demographic")
+                    st.markdown("#### Primary Demographic")
                     st.write(data.get("Target Audience", ""))
                     
                 with tab3:
-                    st.markdown("### ✨ Modern Execution")
+                    st.markdown("#### High-Level execution")
                     st.write(data.get("Revived Startup Concept", ""))
+                st.markdown('</div>', unsafe_allow_html=True)
             
             with main_col2:
-                # Show image with a nice styled caption
-                st.markdown("### 📸 Generative Concept")
+                st.markdown('<div class="glass-card" style="padding-top: 1rem;">', unsafe_allow_html=True)
+                st.markdown('<p class="outfit-font" style="font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem;">📸 GENERATIVE RENDER</p>', unsafe_allow_html=True)
                 visual_prompt = data.get("Visual Concept Prompt", "")
                 
                 if visual_prompt:
@@ -202,8 +328,9 @@ if submit_btn:
                     
                     st.image(image_url, use_container_width=True, caption=f"AI Representation of the New Paradigm")
                     
-                    with st.expander("Show Underlying Image Prompt"):
+                    with st.expander("Show AI Parameters"):
                         st.code(visual_prompt, language="text")
+                st.markdown('</div>', unsafe_allow_html=True)
                         
         except Exception as e:
             st.error(f"System Failure: {e}")
@@ -212,23 +339,25 @@ if submit_btn:
     else:
         st.warning("Please enter an idea.")
 
-st.divider()
+st.markdown('<div class="premium-hr"></div>', unsafe_allow_html=True)
 
-st.subheader("📚 Idea Graveyard (Recent Revivals)")
-if st.button("Load History Archive"):
+st.markdown('<p class="outfit-font" style="font-size: 1.5rem; font-weight: 700;">📚 Idea Graveyard (Recent Revivals)</p>', unsafe_allow_html=True)
+if st.button("Access Historical Archive"):
     try:
         res = requests.get(f"{API_URL}/history")
         if res.status_code == 200:
             history = res.json().get("history", [])
             if not history:
-                st.info("No history found in the databanks.")
+                st.info("The archive is currently empty.")
+            
+            # Show history in a clean grid
             for item in history:
                 score = item.get('Revival Potential Score', 0)
-                emoji = "🚀" if score > 80 else "📉"
-                with st.expander(f"{emoji} {item.get('original_idea', 'Unknown').upper()} (Viability: {score}%)"):
-                    st.write(f"**Pitch:** {item.get('Elevator Pitch', 'N/A')}")
+                st.markdown('<div class="glass-card" style="padding: 1.2rem;">', unsafe_allow_html=True)
+                with st.expander(f"{item.get('original_idea', 'Unknown').upper()} — Viability: {score}%"):
                     st.write(f"**Concept:** {item.get('Revived Startup Concept')}")
+                st.markdown('</div>', unsafe_allow_html=True)
         else:
-            st.error("Failed to access archives.")
+            st.error("Connection to archives failed.")
     except Exception as e:
-        st.error(f"Failed to fetch history: {e}")
+        st.error(f"Archive retrieval error: {e}")
