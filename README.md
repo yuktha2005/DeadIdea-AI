@@ -74,21 +74,17 @@ graph TD
      - Term 1: `uvicorn backend.main:app --reload`
      - Term 2: `streamlit run frontend/app.py`
 
-##  Deployment Instructions (Google Cloud Run)
+---
 
-This app is containerized and ready to deploy to Cloud Run!
+## ⚡ Automated Cloud Deployment
 
-1. Install Google Cloud CLI (`gcloud`).
-2. Login and set your project:
-   ```bash
-   gcloud auth login
-   gcloud config set project YOUR_PROJECT_ID
-   ```
-3. Deploy to Cloud Run (One-liner):
-   ```bash
-   gcloud run deploy deadidea-ai --source . --region us-central1 --allow-unauthenticated --set-env-vars="GEMINI_API_KEY=your_actual_key_here"
-   ```
-   *Cloud Run automatically builds the Dockerfile and deploys both FastAPI and Streamlit on the same container!*
+This project demonstrates professional DevOps practices through Infrastructure-as-Code (IaC) and automated shell scripting for Google Cloud Platform.
+
+*   **[deploy_gcp.sh](https://github.com/yuktha2005/DeadIdea-AI/blob/main/deploy_gcp.sh)**: A comprehensive bash script that automates API enabling, container building via **Google Cloud Build**, and orchestration to **Google Cloud Run**.
+*   **[cloud_run_service.yaml](https://github.com/yuktha2005/DeadIdea-AI/blob/main/cloud_run_service.yaml)**: A formal Knative-based Service Specification that represents the infrastructure-as-code for the entire Phoenix Protocol service.
+*   **[Dockerfile](https://github.com/yuktha2005/DeadIdea-AI/blob/main/Dockerfile)**: The immutable container specification used for consistent deployment across Google Cloud environments.
+
+---
 
 ##  Demo Instructions
 

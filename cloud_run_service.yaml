@@ -1,0 +1,24 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: deadidea-ai
+  labels:
+    cloud.googleapis.com/location: us-central1
+  annotations:
+    run.googleapis.com/description: "DeadIdea AI - The Phoenix Protocol Service Specification"
+spec:
+  template:
+    spec:
+      containers:
+      - image: gcr.io/PROJECT_ID/deadidea-ai
+        resources:
+          limits:
+            memory: 1Gi
+            cpu: 1000m
+        ports:
+        - containerPort: 8080
+        env:
+        - name: GEMINI_API_KEY
+          value: "REPLACE_WITH_SECRET_MANAGER_REF"
+        - name: API_URL
+          value: "http://localhost:8000"
