@@ -237,11 +237,11 @@ if submit_btn:
         progress_bar = st.progress(0)
         status_text = st.empty()
         
-        status_text.markdown("#### 🔍 **[QUERYING]** Accessing historical archives...")
+        status_text.markdown("####  Accessing historical archives...")
         time.sleep(0.7)
         progress_bar.progress(25)
         
-        status_text.markdown("#### 🧠 **[NEURAL LINK]** Identifying root failure vectors...")
+        status_text.markdown("#### Identifying root failure vectors...")
         time.sleep(0.7)
         progress_bar.progress(50)
         
@@ -261,11 +261,11 @@ if submit_btn:
                 data = analyze_idea(idea_input, api_key=user_api_key)
             
             progress_bar.progress(75)
-            status_text.markdown("#### 🌐 **[SYNTHESIS]** Mapping to modern ecosystem...")
+            status_text.markdown("#### 🌐  Mapping to modern ecosystem...")
             time.sleep(0.8)
             
             progress_bar.progress(100)
-            status_text.markdown("#### ✨ **[COMPLETE]** Re-engineering successful.")
+            status_text.markdown("#### ✨  Re-engineering successful.")
             time.sleep(0.5)
             
             status_text.empty()
