@@ -267,9 +267,12 @@ if submit_btn:
                         <h4 class="tag-font" style="color: {ACCENT_MINT}; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px;">Blueprint Re-Engineered</h4>
                         <h2 class="tag-font" style="font-size: 3rem; margin-top: 0;">{idea_input.upper()}</h2>
                     </div>
-                    <div class="metric-card">
-                        <div class="metric-value">{score}%</div>
-                        <div class="metric-label">Viability Index</div>
+                    <div style="text-align: right;">
+                        <div class="metric-card" style="padding: 0;">
+                            <div class="metric-value">{score}%</div>
+                            <div class="metric-label">Viability Index</div>
+                        </div>
+                        {f'<p style="color:{ACCENT_ROSE}; font-size:0.65rem; font-weight:800; letter-spacing:1px; margin-top:5px;">SIMULATION ACTIVE</p>' if data.get("INTELLIGENCE_LAYER") else ''}
                     </div>
                 </div>
                 <div style="margin-top: 2rem;">
