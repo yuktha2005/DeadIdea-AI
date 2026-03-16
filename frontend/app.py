@@ -29,127 +29,152 @@ st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;800&display=swap" rel="stylesheet">
 
 <style>
-    /* Global Styles */
+    /* Premium Design System Tokens */
     :root {
-        --primary-mint: #00FFC2;
-        --secondary-rose: #FF2D55;
-        --bg-dark: #0B0B0C;
-        --card-bg: rgba(28, 29, 31, 0.7);
-        --text-muted: #8E9196;
-        --glass-border: rgba(255, 255, 255, 0.08);
+        --accent-glow: #00FFC2;
+        --accent-danger: #FF2D55;
+        --rich-black: #050505;
+        --card-surface: rgba(20, 20, 22, 0.82);
+        --glass-stroke: rgba(255, 255, 255, 0.05);
+        --text-primary: #FFFFFF;
+        --text-secondary: #94949E;
+        --font-outfit: 'Outfit', sans-serif;
     }
 
+    /* Base Reset & Typography */
     body, [data-testid="stAppViewContainer"] {
         font-family: 'Inter', sans-serif;
-        background-color: var(--bg-dark);
-        color: white;
+        background-color: var(--rich-black);
+        color: var(--text-primary);
+        letter-spacing: -0.01em;
     }
 
     h1, h2, h3, h4, .outfit-font {
-        font-family: 'Outfit', sans-serif !important;
+        font-family: var(--font-outfit) !important;
+        letter-spacing: -0.03em;
     }
 
-    /* Glass Panels */
+    /* High-End Animations */
+    @keyframes revealUp {
+        0% { opacity: 0; transform: translateY(40px) scale(0.96); filter: blur(10px); }
+        100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+    
+    @keyframes subtlePulse {
+        0% { transform: scale(1); opacity: 0.8; }
+        50% { transform: scale(1.05); opacity: 1; }
+        100% { transform: scale(1); opacity: 0.8; }
+    }
+
+    .animate-reveal {
+        animation: revealUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Engineered Glassmorphism */
     .glass-card {
-        background: var(--card-bg);
-        backdrop-filter: blur(12px);
-        border: 1px solid var(--glass-border);
-        border-radius: 20px;
-        padding: 2rem;
-        margin-bottom: 1.5rem;
-        transition: all 0.3s ease;
+        background: var(--card-surface);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid var(--glass-stroke);
+        border-radius: 28px;
+        padding: 2.5rem;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     }
     
     .glass-card:hover {
-        border-color: rgba(0, 255, 194, 0.3);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        border-color: rgba(0, 255, 194, 0.2);
+        background: rgba(25, 25, 28, 0.9);
+        transform: translateY(-8px) scale(1.01);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
     }
 
-    /* Luxury Header */
+    /* Luxury Scaling Header */
     .hero-title {
-        background: linear-gradient(135deg, #FFFFFF 0%, #888888 100%);
+        background: linear-gradient(135deg, #FFFFFF 0%, #71717A 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         font-weight: 800;
-        font-size: 3.8rem;
-        letter-spacing: -2px;
-        margin-bottom: 0px;
+        font-size: clamp(3rem, 10vw, 5rem);
+        line-height: 0.95;
+        margin-bottom: 0.75rem;
+        filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5));
     }
     
     .hero-subtitle {
-        color: var(--primary-mint);
+        color: var(--accent-glow);
         text-transform: uppercase;
-        letter-spacing: 4px;
-        font-size: 0.9rem;
+        letter-spacing: 6px;
+        font-size: clamp(0.7rem, 2vw, 0.9rem);
         font-weight: 600;
-        margin-top: -10px;
+        opacity: 0.9;
     }
 
-    /* Metric Overrides */
-    div[data-testid="stMetricValue"] {
-        font-family: 'Outfit', sans-serif;
-        font-size: 2.8rem !important;
-        font-weight: 700 !important;
-        color: white !important;
-    }
-    
-    div[data-testid="stMetricLabel"] {
-        color: var(--text-muted) !important;
-        font-size: 0.85rem !important;
-        text-transform: uppercase !important;
-        letter-spacing: 1px !important;
-    }
-
-    /* Button Styling */
+    /* Interaction & Feedback UI */
     .stButton>button {
-        background: white !important;
-        color: black !important;
-        border: none !important;
-        padding: 0.8rem 2.5rem !important;
+        background: linear-gradient(135deg, #FFFFFF 0%, #D4D4D8 100%) !important;
+        color: #000000 !important;
+        height: 60px !important;
+        font-size: 1.1rem !important;
         font-weight: 700 !important;
-        border-radius: 12px !important;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-        text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 1.5px !important;
+        border-radius: 16px !important;
+        border: none !important;
+        transition: all 0.3s ease !important;
+        margin-top: 1rem;
     }
     
     .stButton>button:hover {
-        transform: scale(1.02) !important;
-        box-shadow: 0 0 30px rgba(255, 255, 255, 0.2) !important;
+        transform: scale(1.03) !important;
+        box-shadow: 0 0 40px rgba(255, 255, 255, 0.15) !important;
     }
 
-    /* Input Field Styling */
-    .stTextInput input {
-        background: rgba(255,255,255,0.05) !important;
-        border: 1px solid var(--glass-border) !important;
-        border-radius: 12px !important;
-        padding: 1rem !important;
-        color: white !important;
+    /* Professional Analytics Styling */
+    div[data-testid="stMetricValue"] {
+        font-family: var(--font-outfit);
+        font-size: clamp(2.5rem, 5vw, 4rem) !important;
+        font-weight: 800 !important;
+        color: var(--text-primary) !important;
+        text-shadow: 0 0 20px rgba(0, 255, 194, 0.3);
+    }
+    
+    div[data-testid="stMetricLabel"] {
+        color: var(--text-secondary) !important;
+        font-size: 0.75rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 2px !important;
+        font-weight: 600 !important;
     }
 
-    /* Sidebar Branding */
-    .sidebar-branding {
-        padding: 1.5rem;
-        text-align: center;
-        border-bottom: 1px solid var(--glass-border);
+    /* Content Hierarchy */
+    .concept-title {
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        font-weight: 800;
+        color: var(--text-primary);
         margin-bottom: 2rem;
     }
 
-    /* Custom Divider */
-    .premium-hr {
-        height: 1px;
-        background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
-        margin: 3rem 0;
-        border: none;
+    /* Custom Progress Bar */
+    .stProgress > div > div > div > div {
+        background-color: var(--accent-glow) !important;
+        height: 6px;
+        border-radius: 3px;
     }
 
-    /* Animations */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
+    /* Input Field Polishing */
+    .stTextInput input {
+        background: rgba(255,255,255,0.03) !important;
+        border: 1px solid var(--glass-stroke) !important;
+        border-radius: 16px !important;
+        padding: 1.25rem !important;
+        font-size: 1.1rem !important;
+        transition: all 0.3s ease;
     }
-    .animate-in {
-        animation: fadeIn 0.8s ease forwards;
+    
+    .stTextInput input:focus {
+        border-color: var(--accent-glow) !important;
+        background: rgba(255,255,255,0.06) !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -187,7 +212,7 @@ with st.sidebar:
     st.markdown('<p class="outfit-font" style="font-weight: 800; font-size: 1.5rem; color: var(--primary-mint);">DEADIDEA</p>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
     
-    st.markdown("### ⚙️ Engine Settings")
+    st.markdown("###  Engine Settings")
     
     # Try to get key from secrets first (Streamlit Cloud)
     env_key = os.environ.get("GEMINI_API_KEY") or st.secrets.get("GEMINI_API_KEY", "")
@@ -198,7 +223,7 @@ with st.sidebar:
         st.warning("⚠️ API Key is missing.")
     
     st.markdown("---")
-    st.markdown("### 🛠️ Developer Mode")
+    st.markdown("###  Developer Mode")
     st.info("Direct Standalone Link active. Connected to Gemini SDK.")
 
 col_search1, col_search2, col_search3 = st.columns([1, 2, 1])
@@ -212,13 +237,13 @@ if submit_btn:
         progress_bar = st.progress(0)
         status_text = st.empty()
         
-        status_text.markdown("#### 🔍 Querying historical archives...")
-        time.sleep(0.5)
-        progress_bar.progress(20)
+        status_text.markdown("#### 🔍 **[QUERYING]** Accessing historical archives...")
+        time.sleep(0.7)
+        progress_bar.progress(25)
         
-        status_text.markdown("#### 🧠 Activating Gemini... Identifying failure points...")
-        time.sleep(0.5)
-        progress_bar.progress(40)
+        status_text.markdown("#### 🧠 **[NEURAL LINK]** Identifying root failure vectors...")
+        time.sleep(0.7)
+        progress_bar.progress(50)
         
         try:
             # We fetch while leaving the user in suspense
@@ -228,26 +253,35 @@ if submit_btn:
                 if user_api_key:
                     payload["api_key"] = user_api_key
                     
-                response = requests.post(f"{API_URL}/analyze", json=payload, timeout=5)
+                response = requests.post(f"{API_URL}/analyze", json=payload, timeout=8)
                 response.raise_for_status()
                 data = response.json()
-            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout, requests.exceptions.HTTPError):
                 # Second attempt: Direct call (Standalone Mode for Streamlit Cloud)
                 data = analyze_idea(idea_input, api_key=user_api_key)
             
+            progress_bar.progress(75)
+            status_text.markdown("#### 🌐 **[SYNTHESIS]** Mapping to modern ecosystem...")
+            time.sleep(0.8)
+            
+            progress_bar.progress(100)
+            status_text.markdown("#### ✨ **[COMPLETE]** Re-engineering successful.")
+            time.sleep(0.5)
+            
+            status_text.empty()
+            progress_bar.empty()
             if "error" in data and data["error"] == "MISSING_API_KEY":
                 progress_bar.empty()
                 status_text.empty()
-                st.error("🔑 **GEMINI_API_KEY is missing!**")
+                st.error(" **GEMINI_API_KEY is missing!**")
                 st.info("To fix this, set your API key in your terminal environment before running the app. \n\n **Windows:** `set GEMINI_API_KEY=your_key_here` \n\n **Mac/Linux:** `export GEMINI_API_KEY=your_key_here` \n\n Then restart the server.")
-                st.stop()
             
             progress_bar.progress(70)
-            status_text.markdown("#### 🌐 Mapping to current technological ecosystem...")
+            status_text.markdown("#### Mapping to current technological ecosystem...")
             time.sleep(1)
             
             progress_bar.progress(90)
-            status_text.markdown("#### 🎨 Generating visual concept render...")
+            status_text.markdown("####  Generating visual concept render...")
             time.sleep(1.5)
             
             progress_bar.progress(100)
@@ -259,7 +293,7 @@ if submit_btn:
                 st.balloons()
             
             # Result Header
-            st.markdown(f'<p class="outfit-font animate-in" style="font-size: 2rem; font-weight: 800; margin-bottom: 2rem;">⚡ Revival Protocol: {idea_input.upper()}</p>', unsafe_allow_html=True)
+            st.markdown(f'<p class="concept-title animate-reveal">⚡ Revival Protocol: {idea_input.upper()}</p>', unsafe_allow_html=True)
             
             # Metric Row in Glass Cards
             m1, m2, m3 = st.columns(3)
@@ -281,9 +315,9 @@ if submit_btn:
             # Elevator Pitch Panel
             pitch = data.get("Elevator Pitch", "A bold vision for the future.")
             st.markdown(f"""
-            <div class="glass-card" style="border-left: 4px solid var(--primary-mint); border-radius: 0 20px 20px 0;">
-                <p style="color: var(--primary-mint); font-weight: 600; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 10px;">THE VISION</p>
-                <p style="font-size: 1.5rem; font-family: 'Outfit'; font-weight: 500; font-style: italic;">"{pitch}"</p>
+            <div class="glass-card animate-reveal" style="border-left: 5px solid var(--accent-glow); border-radius: 0 28px 28px 0; background: linear-gradient(90deg, rgba(0,255,194,0.05) 0%, var(--card-surface) 100%);">
+                <p style="color: var(--accent-glow); font-weight: 700; font-size: 0.8rem; letter-spacing: 3px; margin-bottom: 12px; text-transform: uppercase;">Executive Vision</p>
+                <p style="font-size: 1.6rem; font-family: var(--font-outfit); font-weight: 500; font-style: italic; line-height: 1.4;">"{pitch}"</p>
             </div>
             """, unsafe_allow_html=True)
                 
