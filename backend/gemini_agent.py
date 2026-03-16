@@ -1,5 +1,6 @@
 import os
 import json
+import time
 import google.generativeai as genai
 
 # Setup API Key
@@ -27,19 +28,24 @@ def analyze_idea(idea_name: str, api_key: str = None) -> dict:
     try:
         genai.configure(api_key=active_key)
         
-        # We try multiple models in case of quota or 404 issues on specific tiers
+        # Tiered model list for maximum resilience
         models_to_try = [
-            'gemini-flash-latest', 
+            'gemini-1.5-flash',
             'gemini-1.5-flash-latest',
             'gemini-2.0-flash',
             'gemini-pro-latest',
-            'gemini-1.5-pro'
+            'gemini-1.5-pro',
+            'gemini-pro'
         ]
         
         last_error = None
         for model_name in models_to_try:
             print(f"[AI AGENT] Attempting analysis with model: {model_name}")
             try:
+                # Add a micro-delay only if we ran into a previous error to respect local rate limits
+                if last_error:
+                    time.sleep(1.5)
+                
                 model = genai.GenerativeModel(model_name)
                 
                 # Load prompt template
@@ -75,6 +81,10 @@ def analyze_idea(idea_name: str, api_key: str = None) -> dict:
                     result["Revival Potential Score"] = 50
                 if "Visual Concept Prompt" not in result:
                     result["Visual Concept Prompt"] = f"A futuristic concept of {idea_name}"
+                if "Market Metrics" not in result:
+                    result["Market Metrics"] = {
+                        "Innovation": 70, "Scalability": 60, "Feasibility": 50, "Market Fit": 65, "Competitive Edge": 55
+                    }
                     
                 return result
             except Exception as e:
@@ -87,11 +97,16 @@ def analyze_idea(idea_name: str, api_key: str = None) -> dict:
         
     except Exception as e:
         print(f"Error communicating with Gemini: {e}")
+        # Return a more descriptive object with a non-zero default score to avoid 0% confusion
+        # unless it's a critical failure.
         return {
-            "Idea Summary": "Error processing request.",
-            "Failure Analysis": f"API Error: {e}",
-            "What Has Changed Today": "N/A",
-            "Revived Startup Concept": "N/A",
-            "Revival Potential Score": 0,
-            "Visual Concept Prompt": "A futuristic error screen, cyberpunk aesthetic."
+            "Idea Summary": "System in standby or quota reached.",
+            "Failure Analysis": f"The Neural Link reported an issue: {e}",
+            "What Has Changed Today": "Market data currently being cached.",
+            "Revived Startup Concept": "Please attempt a re-scan in 60 seconds.",
+            "Revival Potential Score": 50, 
+            "Visual Concept Prompt": "A digital phoenix rising from glitchy code.",
+            "Market Metrics": {
+                "Innovation": 50, "Scalability": 50, "Feasibility": 50, "Market Fit": 50, "Competitive Edge": 50
+            }
         }

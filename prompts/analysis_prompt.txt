@@ -11,5 +11,6 @@ You must output your response strictly in JSON format with the following keys:
 - "Revived Startup Concept": A detailed pitch for a modern, realistic version of this idea.
 - "Revival Potential Score": An integer from 0 to 100 based on technology readiness, market demand, and scalability.
 - "Visual Concept Prompt": A highly detailed, cinematic image generation prompt (e.g., for Midjourney or Dall-E) that visualizes this revived product or service being used in an aesthetic, modern setting. Make it highly visual and engaging.
+- "Market Metrics": A dictionary with integer scores (0-100) for: "Innovation", "Scalability", "Feasibility", "Market Fit", "Competitive Edge".
 
 Analyze the following idea: {idea}

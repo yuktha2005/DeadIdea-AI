@@ -5,3 +5,5 @@ google-cloud-firestore
 streamlit
 requests
 pydantic
+plotly
+pandas

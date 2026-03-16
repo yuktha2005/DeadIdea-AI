@@ -4,6 +4,8 @@ import os
 import urllib.parse
 import time
 import sys
+import plotly.graph_objects as go
+import pandas as pd
 
 # Core Configuration
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -150,12 +152,42 @@ st.markdown(f"""
         line-height: 1;
     }}
     
-    .metric-label {{
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.4);
-        font-size: 0.75rem;
-        letter-spacing: 0.1rem;
-        margin-top: 5px;
+    /* Radar Chart Overrides */
+    div.stPlotlyChart {{
+        background: transparent !important;
+        border-radius: 20px;
+    }}
+
+    /* Scanning Effect Overlay */
+    .scan-container {{
+        position: relative;
+        overflow: hidden;
+        border-radius: 20px;
+    }}
+    .scan-line {{
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 2px;
+        background: {ACCENT_MINT};
+        box-shadow: 0 0 15px {ACCENT_MINT};
+        opacity: 0.5;
+        z-index: 10;
+        animation: scanLines 4s linear infinite;
+    }}
+    @keyframes scanLines {{
+        0% {{ top: -10%; }}
+        100% {{ top: 110%; }}
+    }}
+    
+    .scan-grid {{
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-image: 
+            linear-gradient(rgba(0, 255, 210, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 255, 210, 0.05) 1px, transparent 1px);
+        background-size: 20px 20px;
+        z-index: 5;
+        pointer-events: none;
     }}
 
     /* Animations */
@@ -186,7 +218,7 @@ col_s1, col_s2, col_s3 = st.columns([1, 2, 1])
 with col_s2:
     st.markdown('<div class="glass-box animate-in" style="padding: 2rem;">', unsafe_allow_html=True)
     idea_input = st.text_input("Enter a discarded vision", placeholder="e.g. Quibi, Google Glass, Vine...", label_visibility="collapsed")
-    submit_btn = st.button("INITIATE REVIVAL RECON ⚡")
+    submit_btn = st.button("INITIATE REVIVAL RECON")
     st.markdown('</div>', unsafe_allow_html=True)
 
 # API Key Check (Server Side Only)
@@ -200,10 +232,10 @@ if submit_btn:
         status_log = st.empty()
         
         sequence = [
-            ("🔍 Accessing Historical Data Banks...", 20),
-            ("🧠 Engaging Gemini-Pro Neural Matrix...", 50),
-            ("🌐 Synthesizing 2026 Technological Delta...", 80),
-            ("✨ Finalizing Post-Mortem Reconstruction...", 100)
+            ("Accessing Historical Data Banks...", 20),
+            ("Engaging Gemini-Pro Neural Matrix...", 50),
+            ("Synthesizing 2026 Technological Delta...", 80),
+            ("Finalizing Post-Mortem Reconstruction...", 100)
         ]
         
         for msg, prog in sequence:
@@ -246,34 +278,78 @@ if submit_btn:
             </div>
             """, unsafe_allow_html=True)
 
-            # Row 2: Deep Dive
-            col_res1, col_res2 = st.columns([1.5, 1])
+            # Row 2: Deep Dive + Full Visualization
+            col_res1, col_res2 = st.columns([1, 1])
             
             with col_res1:
+                # DATA VISUALIZATION: Radar Chart
                 st.markdown(f"""
-                <div class="glass-box animate-in">
-                    <h3 class="tag-font"><i class="fas fa-skull" style="color:{ACCENT_ROSE}; margin-right: 15px;"></i> The Post-Mortem</h3>
-                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 2rem;">{data.get('Failure Analysis', 'N/A')}</p>
-                    
-                    <h3 class="tag-font"><i class="fas fa-bolt" style="color:{ACCENT_MINT}; margin-right: 15px;"></i> Modern Catalysts</h3>
-                    <p style="color: rgba(255,255,255,0.7);">{data.get('What Has Changed Today', 'N/A')}</p>
-                    
-                    <div style="background: rgba(0, 255, 210, 0.05); padding: 2rem; border-radius: 20px; border: 1px dashed {UI_BORDER}; margin-top: 2rem;">
-                        <h4 class="tag-font" style="color: {ACCENT_MINT};">PROPOSED EXECUTION</h4>
-                        <p style="margin: 0; font-size: 1.1rem;">{data.get('Revived Startup Concept', 'N/A')}</p>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with col_res2:
-                # Header for the Image Box
-                st.markdown(f"""
-                <div class="glass-box animate-in" style="padding: 1.5rem; margin-bottom: 0px; border-bottom: none; border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
-                    <h4 class="tag-font" style="margin:0; font-size: 0.9rem; letter-spacing: 1px; color: {ACCENT_MINT};">AI VISUAL SYNTHESIS</h4>
-                </div>
+                <div class="glass-box animate-in" style="padding-bottom: 10px;">
+                    <h4 class="tag-font" style="color: {ACCENT_MINT}; font-size: 0.8rem; letter-spacing: 2px;">NEURAL MARKET DYNAMICS</h4>
                 """, unsafe_allow_html=True)
                 
-                # Native st.image (The image is showed here)
+                # Robust Metric Validation
+                raw_metrics = data.get("Market Metrics", {})
+                if not isinstance(raw_metrics, dict):
+                    # Fallback for unexpected AI formats
+                    raw_metrics = {"Scale": 60, "Impact": 70, "Innovation": 80, "Risk": 40, "Speed": 50}
+                
+                categories = [str(k) for k in raw_metrics.keys()]
+                values = [float(v) if str(v).replace('.','',1).isdigit() else 50 for v in raw_metrics.values()]
+                
+                # Minimum 3 points for a radar chart to look decent
+                if len(categories) < 3:
+                     categories += ["Stability", "Global Demand"][:3-len(categories)]
+                     values += [50] * (3-len(values))
+
+                fig = go.Figure()
+                fig.add_trace(go.Scatterpolar(
+                    r=values + [values[0]],
+                    theta=categories + [categories[0]],
+                    fill='toself',
+                    fillcolor='rgba(0, 255, 210, 0.2)',
+                    line=dict(color=ACCENT_MINT, width=3),
+                    marker=dict(size=8, color=ACCENT_MINT)
+                ))
+                
+                fig.update_layout(
+                    polar=dict(
+                        radialaxis=dict(visible=True, range=[0, 100], gridcolor="rgba(255,255,255,0.1)", tickfont=dict(color="grey")),
+                        angularaxis=dict(gridcolor="rgba(255,255,255,0.1)", tickfont=dict(color="#FFF", size=10)),
+                        bgcolor="rgba(0,0,0,0)"
+                    ),
+                    showlegend=False,
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="rgba(0,0,0,0)",
+                    margin=dict(l=40, r=40, t=20, b=20),
+                    height=350
+                )
+                
+                st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+                st.markdown('</div>', unsafe_allow_html=True)
+
+                # Summary Text
+                st.markdown(f"""
+                <div class="glass-box animate-in">
+                    <h3 class="tag-font"><i class="fas fa-bolt" style="color:{ACCENT_MINT}; margin-right: 15px;"></i> Strategic Concept</h3>
+                    <p style="margin: 0; font-size: 1.1rem; line-height: 1.6;">{data.get('Revived Startup Concept', 'N/A')}</p>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with col_res2:
+                # VISUAL SYNTHESIS: Scanning Feed
+                st.markdown(f"""
+                <div class="glass-box animate-in" style="padding: 0;">
+                    <div style="padding: 1.5rem; border-bottom: 1px solid {UI_BORDER};">
+                        <h4 class="tag-font" style="margin:0; font-size: 0.9rem; letter-spacing: 1px; color: {ACCENT_MINT};">
+                            <i class="fas fa-video fa-pulse" style="margin-right: 10px;"></i> SYS_VISUAL_RECON_FEED_v4.0
+                        </h4>
+                    </div>
+                    <div class="scan-container">
+                        <div class="scan-line"></div>
+                        <div class="scan-grid"></div>
+                """, unsafe_allow_html=True)
+                
                 visual_prompt = data.get("Visual Concept Prompt", "")
                 if visual_prompt:
                     clean_prompt = visual_prompt.replace("\n", " ").strip()
@@ -281,23 +357,30 @@ if submit_btn:
                     image_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=1024&height=1024&nologo=true&seed=42"
                     st.image(image_url, width='stretch')
                 
-                # Bottom part of the box
-                st.markdown(f"""
-                <div class="glass-box animate-in" style="padding: 1rem; margin-top: -10px; border-top: none; border-top-left-radius: 0; border-top-right-radius: 0;">
-                    <p style="font-size: 0.7rem; color: rgba(255,255,255,0.3); text-align: center;">Phoenix System Conceptual Render v4.0</p>
+                st.markdown("""
+                    </div>
+                    <div style="padding: 1.2rem; background: rgba(0,0,0,0.5); font-family: monospace; font-size: 0.7rem; color: #00FFD2; opacity: 0.7;">
+                        > RENDER_STATE: ACTIVE<br>
+                        > NEURAL_RECON: 100% COMPLETE<br>
+                        > PHOENIX_PROTOCOL: ENGAGED
+                    </div>
                 </div>
                 """, unsafe_allow_html=True)
                 
-                # Market Card
+                # Market Context
                 st.markdown(f"""
-                <div class="glass-box animate-in" style="margin-top: 1.5rem; text-align: center; border-color: {ACCENT_ROSE}33;">
-                    <h4 class="tag-font" style="font-size: 0.8rem; color: {ACCENT_ROSE}; letter-spacing: 2px;">TARGET DEMOGRAPHIC</h4>
+                <div class="glass-box animate-in" style="margin-top: 1rem; text-align: center; border-color: {ACCENT_ROSE}33; padding: 1.5rem;">
+                    <h4 class="tag-font" style="font-size: 0.7rem; color: rgba(255,255,255,0.4); letter-spacing: 2px;">PRIMARY SECTOR</h4>
                     <p style="font-size: 1.2rem; font-weight: 700; margin: 0.5rem 0;">{data.get('Target Audience', 'Mass Market')}</p>
                 </div>
                 """, unsafe_allow_html=True)
 
         except Exception as e:
-            st.error(f"Neural Connection Terminated: {e}")
+            err_msg = str(e)
+            if "exhausted" in err_msg.lower() or "quota" in err_msg.lower():
+                st.error("🚨 NEURAL NETWORK CONGESTED: Gemini API Quota exceeded. Please wait 60 seconds and try again, or use a different API key.")
+            else:
+                st.error(f"Neural Connection Terminated: {e}")
 
 # --- FOOTER ---
 st.markdown(f"""
