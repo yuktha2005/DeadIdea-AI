@@ -194,11 +194,13 @@ if submit_btn:
                 visual_prompt = data.get("Visual Concept Prompt", "")
                 
                 if visual_prompt:
-                    encoded_prompt = urllib.parse.quote(visual_prompt)
+                    # Clean prompt for URL
+                    clean_prompt = visual_prompt.replace("\n", " ").strip()
+                    encoded_prompt = urllib.parse.quote(clean_prompt)
                     # Pollinations API with seed for consistency
                     image_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=1024&height=1024&nologo=true&seed=1337"
                     
-                    st.image(image_url, width='stretch', caption=f"AI Representation of the New Paradigm")
+                    st.image(image_url, use_container_width=True, caption=f"AI Representation of the New Paradigm")
                     
                     with st.expander("Show Underlying Image Prompt"):
                         st.code(visual_prompt, language="text")
