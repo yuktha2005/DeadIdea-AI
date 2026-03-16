@@ -266,28 +266,27 @@ if submit_btn:
                 """, unsafe_allow_html=True)
             
             with col_res2:
-                # Image Gallery / Render
+                # Header for the Image Box
                 st.markdown(f"""
-                <div class="glass-box animate-in" style="padding: 10px;">
-                    <div style="padding: 1.5rem;">
-                        <h4 class="tag-font" style="margin:0; font-size: 0.9rem; letter-spacing: 1px; color: {ACCENT_MINT};">AI VISUAL SYNTHESIS</h4>
-                    </div>
+                <div class="glass-box animate-in" style="padding: 1.5rem; margin-bottom: 0px; border-bottom: none; border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+                    <h4 class="tag-font" style="margin:0; font-size: 0.9rem; letter-spacing: 1px; color: {ACCENT_MINT};">AI VISUAL SYNTHESIS</h4>
+                </div>
                 """, unsafe_allow_html=True)
                 
+                # Native st.image (The image is showed here)
                 visual_prompt = data.get("Visual Concept Prompt", "")
                 if visual_prompt:
                     clean_prompt = visual_prompt.replace("\n", " ").strip()
                     encoded_prompt = urllib.parse.quote(clean_prompt)
                     image_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=1024&height=1024&nologo=true&seed=42"
-                    
-                    # Using pure HTML <img> for guaranteed nesting inside the glass box
-                    st.markdown(f"""
-                        <div style="padding: 0 1rem 1.5rem 1rem;">
-                            <img src="{image_url}" style="width: 100%; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);">
-                        </div>
-                    """, unsafe_allow_html=True)
+                    st.image(image_url, width='stretch')
                 
-                st.markdown('</div>', unsafe_allow_html=True)
+                # Bottom part of the box
+                st.markdown(f"""
+                <div class="glass-box animate-in" style="padding: 1rem; margin-top: -10px; border-top: none; border-top-left-radius: 0; border-top-right-radius: 0;">
+                    <p style="font-size: 0.7rem; color: rgba(255,255,255,0.3); text-align: center;">Phoenix System Conceptual Render v4.0</p>
+                </div>
+                """, unsafe_allow_html=True)
                 
                 # Market Card
                 st.markdown(f"""
