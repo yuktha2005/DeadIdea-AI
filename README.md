@@ -21,16 +21,38 @@ Historically, many brilliant ideas failed purely because the timing was wrong—
 - **Database**: Google Cloud Firestore
 - **Deployment**: Google Cloud Run / Docker
 
-##  Architecture
+## 🏗️ System Architecture
+
+![System Architecture Preview](https://raw.githubusercontent.com/yuktha2005/DeadIdea-AI/main/system_architecture_preview.png)
+
+The **Phoenix Protocol** architecture is designed for high-performance scale and seamless Google Cloud integration.
+
 ```mermaid
-graph TD;
-    User-->|Browser| Frontend_Streamlit;
-    Frontend_Streamlit-->|REST API| Backend_FastAPI;
-    Backend_FastAPI-->|Prompt| Gemini_Model;
-    Backend_FastAPI-->|Save Data| Firestore_DB;
-    Gemini_Model-->|JSON Analysis| Backend_FastAPI;
-    Backend_FastAPI-->|Response| Frontend_Streamlit;
+graph TD
+    User([User Entity]) <--> Frontend[Cinematic Streamlit Dashboard]
+    Frontend <--> Backend[FastAPI / Phoenix Intelligence Layer]
+    Backend <--> Gemini[Google Gemini v1.5/2.0 Models]
+    Backend <--> Firestore[GCP Firestore / Long-term Memory]
+    Frontend <--> Visual[Plotly & Conceptual Render Feed]
+    
+    subgraph "Google Cloud Infrastructure"
+        Gemini
+        Firestore
+        CloudRun[Cloud Run Orchestration]
+    end
+    
+    style Frontend fill:#00FFD211,stroke:#00FFD2,stroke-width:2px
+    style Backend fill:#FF006E11,stroke:#FF006E,stroke-width:2px
+    style Gemini fill:#4285F411,stroke:#4285F4,stroke-width:2px
+    style User color:#FFF,stroke:#FFF
 ```
+
+### 🧠 The Intelligence Flow
+1. **Frontend**: Captures discarded visions through a 30px-blur glassmorphism interface.
+2. **Intelligence Layer**: Managed by `gemini_agent.py`, it orchestrates multiple Gemini model tiers for maximum resilience.
+3. **AI Core**: Google Gemini extracts failure vectors and synthesizes a 2026 technical delta.
+4. **Analytics**: Plotly renders **Neural Market Dynamics** (radar charts) while the conceptual engine produces visual recon feeds.
+5. **Persistence**: Analyzed ideas are archived via high-performance JSON-Firestore sync.
 
 ##  Setup Instructions (Local)
 
