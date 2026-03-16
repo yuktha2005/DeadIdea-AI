@@ -1,11 +1,11 @@
-# DeadIdea AI 💀🚀
+# DeadIdea AI 
 
 DeadIdea AI is a multimodal AI agent that analyzes failed startups, discontinued products, and abandoned innovations to determine whether they could succeed today. It fulfills the requirements for the **Gemini Live Agent Challenge Hackathon**, competing in the **Creative Storyteller** category.
 
-## 🌟 Project Overview
+## Project Overview
 Historically, many brilliant ideas failed purely because the timing was wrong—the technology wasn't there, internet speeds were too slow, or the market wasn't ready. This app uses the **Google Gemini Model** to step thoughtfully into the "idea graveyard", dig up discarded ideas, and reimagine them for the modern technological landscape.
 
-## ✨ Features
+## Features
 1. **Idea Input Interface**: Enter any failed product (e.g., Google Glass, Vine).
 2. **Failure Analysis**: AI analyzes the historical failure reasons.
 3. **Modern Technology Mapping**: AI identifies what has changed (AI, 5G, AR/VR, shifting user habits).
@@ -14,14 +14,14 @@ Historically, many brilliant ideas failed purely because the timing was wrong—
 6. **Multimodal Output**: Not only generates text analysis, but produces an AI-image prompt and dynamically displays a generated visual of the new concept!
 7. **Idea Database**: Connects to Google Cloud Firestore to save historical analyses.
 
-## 🛠️ Tech Stack
+##  Tech Stack
 - **AI**: Google Gemini (via `google-generativeai` SDK)
 - **Backend API**: Python FastAPI
 - **Frontend**: Streamlit
 - **Database**: Google Cloud Firestore
 - **Deployment**: Google Cloud Run / Docker
 
-## 🏗️ Architecture
+##  Architecture
 ```mermaid
 graph TD;
     User-->|Browser| Frontend_Streamlit;
@@ -32,7 +32,7 @@ graph TD;
     Backend_FastAPI-->|Response| Frontend_Streamlit;
 ```
 
-## 🚀 Setup Instructions (Local)
+##  Setup Instructions (Local)
 
 1. Clone the repository
 2. Install dependencies:
@@ -52,7 +52,7 @@ graph TD;
      - Term 1: `uvicorn backend.main:app --reload`
      - Term 2: `streamlit run frontend/app.py`
 
-## ☁️ Deployment Instructions (Google Cloud Run)
+##  Deployment Instructions (Google Cloud Run)
 
 This app is containerized and ready to deploy to Cloud Run!
 
@@ -62,17 +62,13 @@ This app is containerized and ready to deploy to Cloud Run!
    gcloud auth login
    gcloud config set project YOUR_PROJECT_ID
    ```
-3. Deploy to Cloud Run:
+3. Deploy to Cloud Run (One-liner):
    ```bash
-   gcloud run deploy deadidea-ai \
-     --source . \
-     --region us-central1 \
-     --allow-unauthenticated \
-     --set-env-vars="GEMINI_API_KEY=your_actual_key_here"
+   gcloud run deploy deadidea-ai --source . --region us-central1 --allow-unauthenticated --set-env-vars="GEMINI_API_KEY=your_actual_key_here"
    ```
-   *Cloud Run automatically builds the Dockerfile and deploys both FastAPI and Streamlit on the specified container port!*
+   *Cloud Run automatically builds the Dockerfile and deploys both FastAPI and Streamlit on the same container!*
 
-## 🎬 Demo Instructions
+##  Demo Instructions
 
 For your 4-minute demo capability, try the following scenario:
 

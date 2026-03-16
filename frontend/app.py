@@ -179,7 +179,7 @@ if submit_btn:
                     # Pollinations API with seed for consistency
                     image_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=1024&height=1024&nologo=true&seed=1337"
                     
-                    st.image(image_url, use_container_width=True, caption=f"AI Representation of the New Paradigm")
+                    st.image(image_url, width='stretch', caption=f"AI Representation of the New Paradigm")
                     
                     with st.expander("Show Underlying Image Prompt"):
                         st.code(visual_prompt, language="text")

@@ -29,14 +29,16 @@ def analyze_idea(idea_name: str, api_key: str = None) -> dict:
         
         # We try multiple models in case of quota or 404 issues on specific tiers
         models_to_try = [
-            'gemini-1.5-flash', 
+            'gemini-flash-latest', 
             'gemini-1.5-flash-latest',
-            'gemini-2.0-flash-exp',
+            'gemini-2.0-flash',
+            'gemini-pro-latest',
             'gemini-1.5-pro'
         ]
         
         last_error = None
         for model_name in models_to_try:
+            print(f"[AI AGENT] Attempting analysis with model: {model_name}")
             try:
                 model = genai.GenerativeModel(model_name)
                 
