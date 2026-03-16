@@ -3,6 +3,15 @@ import requests
 import os
 import urllib.parse
 import time
+import sys
+
+# Add root directory to path so we can import backend logic directly if needed
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+try:
+    from backend.gemini_agent import analyze_idea
+except ImportError:
+    # Direct import fallback for different envs
+    from gemini_agent import analyze_idea
 
 API_URL = os.environ.get("API_URL", "http://localhost:8000")
 
@@ -70,9 +79,14 @@ st.markdown("---")
 # Sidebar for configuration
 with st.sidebar:
     st.title("⚙️ Configuration")
-    user_api_key = st.text_input("Gemini API Key", type="password", help="Enter your Google Gemini API key if not set in environment variables.")
-    if not user_api_key and not os.environ.get("GEMINI_API_KEY"):
-        st.warning("⚠️ API Key is missing. Enter it above or set GEMINI_API_KEY in the environment.")
+    
+    # Try to get key from secrets first (Streamlit Cloud)
+    env_key = os.environ.get("GEMINI_API_KEY") or st.secrets.get("GEMINI_API_KEY", "")
+    
+    user_api_key = st.text_input("Gemini API Key", type="password", value=env_key, help="Enter your Google Gemini API key.")
+    
+    if not user_api_key:
+        st.warning("⚠️ API Key is missing. Enter it above or set GEMINI_API_KEY in secrets.")
     st.info("Don't have a key? Get one at [Google AI Studio](https://aistudio.google.com/app/apikey)")
 
 col_search1, col_search2, col_search3 = st.columns([1, 2, 1])
@@ -96,13 +110,18 @@ if submit_btn:
         
         try:
             # We fetch while leaving the user in suspense
-            payload = {"idea_name": idea_input}
-            if user_api_key:
-                payload["api_key"] = user_api_key
-                
-            response = requests.post(f"{API_URL}/analyze", json=payload)
-            response.raise_for_status()
-            data = response.json()
+            # First attempt: Local/Container Backend
+            try:
+                payload = {"idea_name": idea_input}
+                if user_api_key:
+                    payload["api_key"] = user_api_key
+                    
+                response = requests.post(f"{API_URL}/analyze", json=payload, timeout=5)
+                response.raise_for_status()
+                data = response.json()
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
+                # Second attempt: Direct call (Standalone Mode for Streamlit Cloud)
+                data = analyze_idea(idea_input, api_key=user_api_key)
             
             if "error" in data and data["error"] == "MISSING_API_KEY":
                 progress_bar.empty()
